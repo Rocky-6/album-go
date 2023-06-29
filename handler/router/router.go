@@ -2,14 +2,14 @@ package router
 
 import (
 	"album/handler"
-	"album/service"
 	"database/sql"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(albumDB *sql.DB) *http.ServeMux {
-	mux := http.NewServeMux()
-	mux.Handle("/healthz", handler.NewHealthzHandler())
-	mux.Handle("/albums", handler.NewAlbumHandler(service.NewAlbumService(albumDB)))
-	return mux
+func NewRouter(albumDB *sql.DB) *gin.Engine {
+	router := gin.Default()
+	router.GET("/healthz", handler.GetHealthz)
+	// mux.Handle("/albums", handler.NewAlbumHandler(service.NewAlbumService(albumDB)))
+	return router
 }
