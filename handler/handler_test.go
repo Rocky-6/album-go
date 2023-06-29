@@ -23,6 +23,7 @@ func TestGetHealthz(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/healthz", nil)
 	router.ServeHTTP(w, req)
 
+	answer := "{\"message\":\"OK\"}"
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.Equal(t, "OK", w.Body.String())
+	assert.Equal(t, answer, w.Body.String())
 }

@@ -8,5 +8,5 @@ import (
 )
 
 func GetHealthz(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, &model.HealthzResponse{Message: "OK"})
+	c.JSON(http.StatusOK, &model.HealthzResponse{Message: "OK"})
 }
