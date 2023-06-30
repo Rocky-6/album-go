@@ -2,13 +2,14 @@ package db
 
 import (
 	"database/sql"
+	_ "embed"
 	"fmt"
 	"os"
 
 	_ "github.com/lib/pq"
 )
 
-// go:embed schema.sql
+//go:embed schema.sql
 var schema string
 
 func NewDB() (*sql.DB, error) {
@@ -19,6 +20,8 @@ func NewDB() (*sql.DB, error) {
 		dbname   string = os.Getenv("POSTGRES_DB")
 	)
 
+	fmt.Println(schema)
+
 	psqlconn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, user, password, dbname)
 
 	db, err := sql.Open("postgres", psqlconn)
@@ -26,7 +29,13 @@ func NewDB() (*sql.DB, error) {
 		return nil, err
 	}
 
-	if _, err := db.Exec(schema); err != nil {
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println("Connected!")
+
+	if _, err = db.Exec(schema); err != nil {
 		return nil, err
 	}
 
