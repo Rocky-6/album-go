@@ -1,8 +1,8 @@
 package main
 
 import (
+	"album/controller/router"
 	"album/db"
-	"album/handler/router"
 	"log"
 )
 
@@ -14,6 +14,5 @@ func main() {
 	defer albumDB.Close()
 
 	router := router.NewRouter(albumDB)
-
 	router.Run("localhost:8080")
 }
