@@ -12,21 +12,22 @@ import (
 func (con *Controller) AddAlbum(ctx *gin.Context) {
 	var album model.Album
 	queryAddAlbum := `INSERT INTO album (title, artist, price) VALUES ($1, $2, $3)`
-	checkExistence := `SELECT COUNT(*) FROM album WHERE title = $1 and artist = $2 and price = $3`
+	checkExistence := `SELECT EXISTS (SELECT * FROM album WHERE title = $1 AND artist = $2)`
 
 	if err := ctx.BindJSON(&album); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
-	var count int
-	err := con.db.QueryRow(checkExistence, album.Title, album.Artist, album.Price).Scan(&count)
+	var exist bool
+	err := con.db.QueryRow(checkExistence, album.Title, album.Artist).Scan(&exist)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
-	if count > 0 {
-		ctx.JSON(http.StatusConflict, gin.H{"message": "record already exists"})
+
+	if exist {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "album already exists"})
 		return
 	}
 
