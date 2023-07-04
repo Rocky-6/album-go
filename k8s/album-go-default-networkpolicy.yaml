@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  creationTimestamp: null
+  # creationTimestamp: null
   name: album-go-default
 spec:
   ingress:

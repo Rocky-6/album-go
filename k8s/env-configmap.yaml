@@ -6,7 +6,7 @@ data:
   POSTGRES_USER: postgres
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
+  # creationTimestamp: null
   labels:
     io.kompose.service: api-env
   name: env
