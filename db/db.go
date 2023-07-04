@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"fmt"
 	"os"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -29,10 +30,17 @@ func NewDB() (*sql.DB, error) {
 		return nil, err
 	}
 
-	err = db.Ping()
-	if err != nil {
-		return nil, err
+	var pingErr error
+	for i := 0; i < 100; i++ {
+		pingErr = db.Ping()
+		if pingErr != nil {
+			time.Sleep(time.Second * 2)
+			fmt.Println("wait...")
+			continue
+		}
+		break
 	}
+
 	fmt.Println("Connected!")
 
 	if _, err = db.Exec(schema); err != nil {
