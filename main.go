@@ -14,5 +14,5 @@ func main() {
 	defer albumDB.Close()
 
 	router := router.NewRouter(albumDB)
-	router.Run("localhost:8080")
+	router.Run(":8080")
 }
