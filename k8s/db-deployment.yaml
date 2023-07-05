@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f ../docker-compose.yml
+    kompose.cmd: kompose convert -f ../docker-compose.yml --volumes hostPath
     kompose.version: 1.28.0 (c4137012e)
-  # creationTimestamp: null
+  creationTimestamp: null
   labels:
     io.kompose.service: db
   name: db
@@ -18,9 +18,9 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f ../docker-compose.yml
+        kompose.cmd: kompose convert -f ../docker-compose.yml --volumes hostPath
         kompose.version: 1.28.0 (c4137012e)
-      # creationTimestamp: null
+      creationTimestamp: null
       labels:
         io.kompose.network/album-go-default: "true"
         io.kompose.service: db
@@ -49,13 +49,15 @@ spec:
                   name: env
           image: postgres:latest
           name: db
+          ports:
+            - containerPort: 5432
           resources: {}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-data
       restartPolicy: Always
       volumes:
-        - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-data
+        - hostPath:
+            path: /home/rocky/album-go
+          name: postgres-data
 status: {}

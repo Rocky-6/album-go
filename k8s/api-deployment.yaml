@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f ../docker-compose.yml
+    kompose.cmd: kompose convert -f ../docker-compose.yml --volumes hostPath
     kompose.version: 1.28.0 (c4137012e)
-  # creationTimestamp: null
+  creationTimestamp: null
   labels:
     io.kompose.service: api
   name: api
@@ -17,9 +17,9 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f ../docker-compose.yml
+        kompose.cmd: kompose convert -f ../docker-compose.yml --volumes hostPath
         kompose.version: 1.28.0 (c4137012e)
-      # creationTimestamp: null
+      creationTimestamp: null
       labels:
         io.kompose.network/album-go-default: "true"
         io.kompose.service: api
