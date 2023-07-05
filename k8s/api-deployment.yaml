@@ -46,7 +46,7 @@ spec:
                 configMapKeyRef:
                   key: POSTGRES_USER
                   name: env
-          image: api
+          image: album-go-api:v1
           name: api
           ports:
             - containerPort: 8080
