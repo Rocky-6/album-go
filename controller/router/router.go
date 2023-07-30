@@ -12,7 +12,7 @@ func NewRouter(albumDB *sql.DB) *gin.Engine {
 
 	router := gin.Default()
 	router.GET("/healthz", con.GetHealthz)
-	router.POST("albums", con.AddAlbum)
+	router.POST("/albums", con.AddAlbum)
 	router.GET("/albums", con.GetAlbums)
 	return router
 }
